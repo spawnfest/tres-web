@@ -1,5 +1,4 @@
 defmodule InspectorDaya.Ipfs do
-
   # {:ok, multihash}
   def block_details(cid) do
     Ipfx.block_get(cid)
