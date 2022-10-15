@@ -60,7 +60,7 @@ defmodule InspectorDayaWeb.PageLive do
   end
 
   defp decode(cid, socket) do
-    cid_details = InspectorDaya.Cid.decode(cid)
+    {:ok, cid_details} = InspectorDaya.Dweb.Cid.decode(cid)
 
     {:ok, %{"Objects" => %{
       ^cid => %{
