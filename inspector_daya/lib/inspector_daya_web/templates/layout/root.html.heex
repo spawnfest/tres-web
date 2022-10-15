@@ -10,8 +10,14 @@
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
   <body>
-    <header>
-    </header>
+    <div class="flex flex-row">
+        <div class="flex px-8">
+          <img src={Routes.static_path(@conn, "/images/detective.png") } alt="..." class=" m-auto h-20 w-20 rounded max-w-full h-auto align-middle border-none" />
+        </div>
+        <div >
+          <p class="font-mono text-5xl font-bold p-8 text-indigo-900">CID INSPECTOR DAYA</p>
+        </div>
+      </div>
     <%= @inner_content %>
   </body>
 </html>

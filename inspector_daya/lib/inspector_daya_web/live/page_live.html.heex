@@ -1,0 +1,115 @@
+<div class="flex px-4 py-4 w-full">
+  <div class="mb-3 xl:w-96">
+    <form phx-submit="decode" class="input-group relative flex w-full mb-4">
+      <input type="text" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" name="cid-value" placeholder="Enter CID" aria-label="Search" aria-describedby="button-addon3">
+      <button class="inline-block px-6 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" type="submit" id="button-addon3">Decode</button>
+    </form>
+  </div>
+</div>
+
+<div class="border-l-2 border-blue-600" style={"display:#{@decoded_details_display}"}>
+  
+  <div class="px-4 py-2">
+    <div class="px-4 py-2 font-mono text-blue text-left"> HUMANIZE</div>
+    <div class="px-4 py-2 font-mono text-indigo-900 text-left"> <%= @cid_details.humanize %></div>
+  </div>
+
+  <div class="px-4 py-2">
+      <div class="px-4 py-2 font-mono text-blue text-left"> VERSION </div>
+      <div class="px-4 py-2 font-mono text-indigo-900 text-left"> <%= @cid_details.version %></div>
+  </div>
+  
+  <div class="px-4 py-2">
+    <div class="px-4 py-2 font-mono text-blue text-left"> MULTIBASE </div>
+    <table>
+    <tr>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left">CODE</td>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multibase.code %></td>
+    </tr>
+    <%= if @cid_details.multibase.description != "" do %>
+      <tr>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left">DESCRIPTION</td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multibase.description %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left">ENCODING</td>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multibase.encoding %></td>
+    </tr>
+    </table>
+  </div>
+  
+  <div class="px-4 py-2">
+    <div class="px-4 py-2 font-mono text-blue text-left"> MULTICODEC </div>
+
+    <table>
+    <tr>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left">CODE</td>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multicodec.code %></td>
+    </tr>
+    <%= if @cid_details.multicodec.description != "" do %>
+      <tr>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left">DESCRIPTION</td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multicodec.description %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left">NAME</td>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multicodec.name %></td>
+    </tr>
+    <tr>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left">TAG</td>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multicodec.tag %></td>
+    </tr>
+    </table>
+  </div>
+
+  <div class="px-4 py-2">
+    <div class="px-4 py-2 font-mono text-blue text-left"> MULTIHASH </div>
+
+    <table>
+    <tr>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left">CODE</td>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multihash.code.code %></td>
+    </tr>
+    <%= if @cid_details.multihash.code.description != "" do %>
+      <tr>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left">DESCRIPTION</td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multihash.code.description %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left">NAME</td>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multihash.code.name %></td>
+    </tr>
+    <tr>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left">TAG</td>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multihash.code.tag %></td>
+    </tr>
+    <tr>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left">DIGEST</td>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multihash.digest %></td>
+    </tr>
+    <tr>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left">ALGO</td>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multihash.multihash_algo %></td>
+    </tr>
+    </table>
+  </div>
+  
+  <div class="px-4 py-2">
+    <div class="px-4 py-2 font-mono text-blue text-left"> CONVERSIONS </div>
+
+    <table>
+    <tr>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left">CID V0 </td>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.v0 %></td>
+    </tr>
+    <tr>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left">CID V1 </td>
+      <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.v1 %></td>
+    </tr>
+    </table>
+  </div>
+
+</div>

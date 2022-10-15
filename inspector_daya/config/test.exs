@@ -8,8 +8,7 @@ config :inspector_daya, InspectorDayaWeb.Endpoint,
   server: false
 
 # In test we don't send emails.
-config :inspector_daya, InspectorDaya.Mailer,
-  adapter: Swoosh.Adapters.Test
+config :inspector_daya, InspectorDaya.Mailer, adapter: Swoosh.Adapters.Test
 
 # Print only warnings and errors during test
 config :logger, level: :warn
