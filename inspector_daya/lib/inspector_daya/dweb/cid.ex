@@ -59,7 +59,7 @@ defmodule InspectorDaya.Dweb.Cid do
          {:ok, humanize} <- CID.humanize(cid),
          {:ok, {cid_struct, multibase}} <- CID.decode(cid) do
       %CID{version: version, codec: codec, multihash: _multihash} = cid_struct
-
+        IO.inspect(multibase, label: :multibase_prefix)
       {:ok,
        %{
          humanize: humanize,
@@ -83,8 +83,10 @@ defmodule InspectorDaya.Dweb.Cid do
     |> File.stream!()
     |> CSV.decode()
     |> Enum.find(fn {:ok, [encoding, _code, _description, _status]} ->
+      IO.inspect(encoding)
       encoding == to_string(multibase) |> String.replace("_", "")
     end)
+    |> IO.inspect()
     |> then(fn {:ok, [encoding, code, description, _status]} ->
       %{
         encoding: String.trim(encoding),
