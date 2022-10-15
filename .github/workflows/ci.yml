@@ -15,6 +15,7 @@ jobs:
         otp: [25.0]
     steps:
     - uses: actions/checkout@v2
+    - working-directory: ./inspector_daya
     - name: Set up Elixir
       uses: actions/setup-elixir@v1
       with:
@@ -25,8 +26,8 @@ jobs:
       uses: actions/cache@v1
       id: mix-cache
       with:
-        path: inspector_daya/deps
-        key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, 'inspector_daya/mix.lock')) }}
+        path: deps
+        key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
     - name: Install dependencies
       if: steps.mix-cache.outputs.cache-hit != 'true'
       run: |
