@@ -1,3 +1,3 @@
 # Inspector Daya
 
-> A CID Inspector
+> A CID Inspector and more.. 🕵🏻‍♂️
