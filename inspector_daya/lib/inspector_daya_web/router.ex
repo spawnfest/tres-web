@@ -18,6 +18,7 @@ defmodule InspectorDayaWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+    live "/:cid", PageLive, :index
   end
 
   # Other scopes may use custom stacks.
