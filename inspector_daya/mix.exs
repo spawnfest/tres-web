@@ -49,7 +49,8 @@ defmodule InspectorDaya.MixProject do
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
       {:ipfx, path: "../../ipfs/ipfx"},
       {:cid, "~> 0.0.1"},
-      {:csv, "~> 2.4.1"}
+      {:csv, "~> 2.4.1"},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
     ]
   end
 
