@@ -14,14 +14,17 @@ config :inspector_daya, InspectorDayaWeb.Endpoint,
   pubsub_server: InspectorDaya.PubSub,
   live_view: [signing_salt: "BvB6OCyx"]
 
-config :tailwind, version: "3.1.8", default: [
-  args: ~w(
+config :tailwind,
+  version: "3.1.8",
+  default: [
+    args: ~w(
     --config=tailwind.config.js
     --input=css/app.css
     --output=../priv/static/assets/app.css
   ),
-  cd: Path.expand("../assets", __DIR__)
-]
+    cd: Path.expand("../assets", __DIR__)
+  ]
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
@@ -51,6 +54,8 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+config :inspector_daya, base_url: "http://localhost:8080/ipfs"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
