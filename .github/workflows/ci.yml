@@ -3,6 +3,9 @@ on:
   push:
   pull_request:
 
+defaults: 
+  run:
+    working-directory: ./inspector_daya 
 env:
   MIX_ENV: test
 jobs:
@@ -16,33 +19,27 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Set up Elixir
-    - working-directory: inspector_daya/
       uses: actions/setup-elixir@v1
       with:
         elixir-version: ${{matrix.elixir}} # Define the elixir version [required]
         otp-version: ${{matrix.otp}} # Define the OTP version [required]
         experimental-otp: true
     - name: Retrieve Mix dependencies Cache
-    - working-directory: inspector_daya/
       uses: actions/cache@v1
       id: mix-cache
       with:
         path: deps
         key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
     - name: Install dependencies
-    - working-directory: inspector_daya/
       if: steps.mix-cache.outputs.cache-hit != 'true'
       run: |
         mix local.rebar --force
         mix local.hex --force
         mix deps.get
     - name: Check Formatting
-    - working-directory: inspector_daya/
       run: mix format --check-formatted
     - name: Run Credo
-    - working-directory: inspector_daya/
       run: mix credo --strict
     - name: Run tests
-    - working-directory: inspector_daya/
       run: |
         mix test
