@@ -1,4 +1,4 @@
-# InspectorDaya
+# Inspector Daya
 
 To start your Phoenix server:
 
