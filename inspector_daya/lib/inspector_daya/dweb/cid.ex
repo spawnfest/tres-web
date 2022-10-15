@@ -43,33 +43,35 @@ defmodule InspectorDaya.Dweb.Cid do
         }
 
   @type cid_properties :: %{
-      multibase: String.t(),
-      version: String.t(),
-      multicodec: String.t(),
-      multihash_algo: String.t(),
-      digest: String.t()
-  }
+          multibase: String.t(),
+          version: String.t(),
+          multicodec: String.t(),
+          multihash_algo: String.t(),
+          digest: String.t()
+        }
   # TODO: Expand the doc
   @doc """
   Decodes a CID in detail
-
   """
-  @spec decode(cid :: String.t()) :: decoded_cid()
+  @spec decode(cid :: String.t()) :: {:ok, decoded_cid()} | {:error, String.t()}
   def decode(cid) do
-    with {:ok, humanize} <- CID.humanize(cid),
-         {:ok, {cid_struct, multibase}} = CID.decode(cid) do
+    with true <- CID.cid?(cid),
+         {:ok, humanize} <- CID.humanize(cid),
+         {:ok, {cid_struct, multibase}} <- CID.decode(cid) do
       %CID{version: version, codec: codec, multihash: _multihash} = cid_struct
 
-      %{
-        humanize: humanize,
-        multibase: multibase_prefix_details(multibase),
-        version: version,
-        multicodec: multicodec_prefix_details(codec),
-        multihash: multihash_details(cid),
-        v0: cid_v0(cid_struct, get_cid_properties(cid)),
-        v1: cid_v1(cid_struct)
-      }
+      {:ok,
+       %{
+         humanize: humanize,
+         multibase: multibase_prefix_details(multibase),
+         version: version,
+         multicodec: multicodec_prefix_details(codec),
+         multihash: multihash_details(cid),
+         v0: cid_v0(cid_struct, get_cid_properties(cid)),
+         v1: cid_v1(cid_struct)
+       }}
     else
+      false -> {:error, "Not a valid encoded CID"}
       {:error, reason} -> {:error, "Unable to decode CID due to #{reason}"}
     end
   end
@@ -141,8 +143,8 @@ defmodule InspectorDaya.Dweb.Cid do
 
   @spec cid_v0(CID.t(), multihash_details()) :: String.t() | nil
   defp cid_v0(
-         cid_struct,
-         %{multibase: "base58_btc", multicodec: "dag-pb", multihash_algo: "sha2_256", version: 0} =
+         %CID{version: 0} = cid_struct,
+         %{multibase: "base58_btc", multicodec: "dag-pb", multihash_algo: "sha2_256"} =
            _props
        ) do
     cid_struct |> CID.encode!()
@@ -166,6 +168,6 @@ defmodule InspectorDaya.Dweb.Cid do
 
   defp cid_v1(cid_struct) do
     {:ok, cid_struct_v1} = cid_struct |> CID.to_version(1)
-    CID.encode!(cid_struct_v1, :base32_upper)
+    CID.encode!(cid_struct_v1, :base32_lower)
   end
 end
