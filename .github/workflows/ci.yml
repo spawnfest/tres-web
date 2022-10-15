@@ -18,12 +18,14 @@ jobs:
     - working-directory: ./inspector_daya
     - name: Set up Elixir
       uses: actions/setup-elixir@v1
+    - working-directory: ./inspector_daya
       with:
         elixir-version: ${{matrix.elixir}} # Define the elixir version [required]
         otp-version: ${{matrix.otp}} # Define the OTP version [required]
         experimental-otp: true
     - name: Retrieve Mix dependencies Cache
       uses: actions/cache@v1
+    - working-directory: ./inspector_daya
       id: mix-cache
       with:
         path: deps
