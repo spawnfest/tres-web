@@ -63,7 +63,8 @@ defmodule InspectorDaya.MixProject do
   defp aliases do
     [
       setup: ["deps.get"],
-      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
+      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"],
+      purity: ["format", "credo --strict"]
     ]
   end
 end
