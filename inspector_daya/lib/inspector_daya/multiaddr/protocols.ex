@@ -42,8 +42,12 @@ defmodule InspectorDaya.Multiaddr.Protocols do
   end
 
   def check_path_parameter(%Protocols{path: true} = protocol, tail) do
-    protocol = %{protocol | parameter: Enum.join(tail, "/")}
-    {protocol, []}
+    case Enum.count(tail)do
+      0 -> {:error, "path needed for protocol "<>protocol.name}
+      _ ->
+        protocol = %{protocol | parameter: Enum.join(tail, "/")}
+        {protocol, []}
+    end
   end
 
   def check_path_parameter(%Protocols{size: size} = protocol, tail) when size != 0 do
@@ -62,7 +66,10 @@ defmodule InspectorDaya.Multiaddr.Protocols do
   end
 
   def get_parameter([head | tail]) do
-    {:ok, head, tail}
+    case get_protocol(head) do
+      {:error, _} -> {:ok, head, tail}
+      _ -> {:error, "required parameter"}
+    end
   end
 
   def get_protocol("ipfs") do
@@ -70,7 +77,6 @@ defmodule InspectorDaya.Multiaddr.Protocols do
   end
 
   def get_protocol(name) do
-
     case name do
       "ip4" ->
         {:ok, new(name, 32, false)}

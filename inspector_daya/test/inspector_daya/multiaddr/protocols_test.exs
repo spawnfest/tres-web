@@ -20,7 +20,7 @@ defmodule ProtocolsTest do
 
   describe "test malformed string" do
     test "parse malformed string" do
-      {status, msg} = Protocols.parse_multiaddr("////")
+      {status, _} = Protocols.parse_multiaddr("////")
       assert status == :error
     end
   end
@@ -33,6 +33,35 @@ defmodule ProtocolsTest do
       assert status == :ok
       assert Enum.count(parsed_address) == 5
     end
+  end
+
+  describe "test with invalid parameters" do
+    test "test without parameter and non empty following protocol" do
+      {status, _} = Protocols.parse_multiaddr("tcp/tls")
+      assert status == :error
+    end
+
+    test "test with no parameter" do
+      {status, _} = Protocols.parse_multiaddr("dns/ecample.com/tls/tcp")
+      assert status == :error
+    end
+  end
+
+  describe "test path parameter" do
+    test "test with path parameter" do
+      {status, [head|tail]} = Protocols.parse_multiaddr("/unix/path/to/sock")
+      assert status == :ok
+      assert head.parameter == "path/to/sock"
+    end
+
+    test "test with empty path" do
+      {status, _} = Protocols.parse_multiaddr("/unix")
+      assert status == :error
+    end
+  end
+
+  test "test invalid protocol" do
+    assert {:error, "protocol name not found"} == Protocols.get_protocol("invalid")
   end
 
   test "test get protocols" do
@@ -66,7 +95,8 @@ defmodule ProtocolsTest do
       "http",
       "https",
       "p2p-webrtc-direct",
-      "webrtc"
+      "webrtc",
+      "ipfs"
     ]
 
     Enum.map(protocols, fn name ->
