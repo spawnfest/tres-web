@@ -2,6 +2,7 @@ defmodule InspectorDayaWeb.PageLive do
   @moduledoc false
   use InspectorDayaWeb, :live_view
   alias InspectorDaya.Dweb.Ipfs
+  alias InspectorDaya.Dweb.Multiaddr.Protocols
 
   @impl true
   def mount(_params, _session, socket) do
@@ -23,7 +24,7 @@ defmodule InspectorDayaWeb.PageLive do
            tag: ""
          },
          multihash: %{
-           code: %{code: "", description: "", name: "", tag: ""},
+           codec_details: %{code: "", description: "", name: "", tag: ""},
            digest: "",
            multihash_algo: ""
          },
@@ -58,6 +59,7 @@ defmodule InspectorDayaWeb.PageLive do
       socket
       |> assign(:show_cid_details, true)
       |> assign(:show_explorer_details, false)
+
     {:noreply, socket}
   end
 
@@ -67,15 +69,18 @@ defmodule InspectorDayaWeb.PageLive do
       socket
       |> assign(:show_cid_details, false)
       |> assign(:show_explorer_details, true)
+
     {:noreply, socket}
   end
 
   @impl true
   def handle_event("clicked-cid", params, socket) do
     params |> IO.inspect(label: "CLICKED")
+
     socket =
       socket
       |> assign(:clicked_cid, params["clicked-cid"])
+
     {:noreply, socket}
   end
 
@@ -106,41 +111,25 @@ defmodule InspectorDayaWeb.PageLive do
         _decoded -> maddr_string
       end
 
+    decoded_maddr_string =
+      case Base.decode64(maddr_string) do
+        :error -> maddr_string
+        {:ok, decoded} -> decoded
+      end
+
+
+    {:ok, layers} =
+      decoded_maddr_string
+      |> Protocols.parse_multiaddr()
+
     layers =
-      [
-        %{
-          name: "dns4",
-          size: -1,
-          path: false,
-          parameter: "example.com"
-        },
-        %{
-          name: "tcp",
-          size: 16,
-          path: false,
-          parameter: "1234"
-        },
-        %{
-          name: "tls",
-          size: 0,
-          path: false,
-          parameter: nil
-        },
-        %{
-          name: "ws",
-          size: 0,
-          path: false,
-          parameter: nil
-        },
-        %{
-          name: "tls",
-          size: 0,
-          path: false,
-          parameter: nil
-        }
-      ]
+      layers
       |> Enum.with_index()
-      |> Enum.map(fn {layer, index} -> layer |> Map.put(:display, display(index)) end)
+      |> Enum.map(fn {layer, index} ->
+        layer
+        |> Map.from_struct()
+        |> Map.put(:display, display(index))
+      end)
 
     socket
     |> assign(cid: encoded_maddr_string)

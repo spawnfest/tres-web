@@ -10,7 +10,22 @@ defmodule InspectorDaya.MixProject do
       compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [
+        ignore_modules: [
+          InspectorDayaWeb,
+          InspectorDayaWeb.ErrorHelpers,
+          InspectorDayaWeb.Gettext,
+          InspectorDayaWeb.LayoutView,
+          InspectorDayaWeb.PageController,
+          InspectorDayaWeb.Router,
+          InspectorDayaWeb.Router.Helpers,
+          InspectorDayaWeb.Endpoint,
+          InspectorDayaWeb.ErrorView,
+          InspectorDaya.Application,
+          InspectorDayaWeb.Telemetry
+        ]
+      ]
     ]
   end
 
