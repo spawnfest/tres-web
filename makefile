@@ -1,4 +1,4 @@
-VERSION = 0.1.0
+VERSION = 0.1.8
 
 commit:
 	mix test
@@ -11,5 +11,5 @@ builddocker:
 	docker build --file dockerfile --tag madclaws/tres-web .
 	docker tag madclaws/tres-web madclaws/tres-web:$(VERSION)
 
-pushdockerdev:
+pushdocker: builddocker
 	docker push madclaws/tres-web:$(VERSION)

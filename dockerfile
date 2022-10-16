@@ -31,12 +31,14 @@ RUN mix deps.compile
 
 COPY priv priv
 
+# compile and build release
+COPY lib lib
+
 COPY assets assets
 # RUN npm install --prefix ./assets
 RUN mix assets.deploy
 
-# compile and build release
-COPY lib lib
+
 # uncomment COPY if rel/ exists
 
 RUN mix compile
@@ -80,7 +82,7 @@ RUN chown root:root /home/elixir/app
 
 USER root:root
 
-COPY --from=build --chown=root:root /app/_build/"${MIX_ENV}"/rel/femo ./
+COPY --from=build --chown=root:root /app/_build/"${MIX_ENV}"/rel/tres_web ./
 
 COPY entrypoint.sh .
 

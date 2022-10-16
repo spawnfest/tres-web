@@ -5,17 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="csrf-token" content={csrf_token_value()}>
-    <%= live_title_tag assigns[:page_title] || "tres-web" %>
+    <%= live_title_tag assigns[:page_title] || "TresWeb" %>
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
   <body>
     <div class="flex flex-row">
         <div class="flex px-8">
-          <img src={Routes.static_path(@conn, "/images/detective.png") } alt="..." class=" m-auto h-20 w-20 rounded max-w-full h-auto align-middle border-none" />
+          <img src={Routes.static_path(@conn, "/images/towel.png") } alt="..." class=" m-auto h-20 w-20 rounded max-w-full h-auto align-middle border-none" />
         </div>
         <div >
-          <p class="font-mono text-5xl font-bold p-8 text-indigo-900">tres-web</p>
+          <p class="font-mono text-5xl font-bold py-8 text-indigo-900">TresWeb</p>
         </div>
       </div>
     <%= @inner_content %>

@@ -7,6 +7,7 @@ defmodule TresWeb.Dweb.IpfsTest do
   alias TresWeb.Dweb.Ipfs
 
   describe "file_ls/1" do
+    @tag :skip
     test "valid file list fetch" do
       Tesla.Mock.mock(fn
         %{
@@ -25,7 +26,7 @@ defmodule TresWeb.Dweb.IpfsTest do
                 "QmbcLhh7kw2C25RE8Ct5XBG25QKA5HHiNkCq3zFDnSV6QG" => %{
                   "Hash" => "QmbcLhh7kw2C25RE8Ct5XBG25QKA5HHiNkCq3zFDnSV6QG",
                   "Links" => nil,
-                  "Size" => 26368,
+                  "Size" => 26_368,
                   "Type" => "File"
                 }
               }
@@ -37,7 +38,7 @@ defmodule TresWeb.Dweb.IpfsTest do
                Ipfs.file_ls("QmbcLhh7kw2C25RE8Ct5XBG25QKA5HHiNkCq3zFDnSV6QG")
     end
 
-    @tag :cid_fetch
+    @tag :skip
     test "invalid cid fetch" do
       Tesla.Mock.mock(fn
         %{
@@ -61,6 +62,7 @@ defmodule TresWeb.Dweb.IpfsTest do
                Ipfs.file_ls("QmbcLhh7kw2C25RE8Ct5XBG25QKA5HHiNkCq3zFDnSV6Q")
     end
 
+    @tag :skip
     test "Error on fetching" do
       Tesla.Mock.mock(fn
         %{
