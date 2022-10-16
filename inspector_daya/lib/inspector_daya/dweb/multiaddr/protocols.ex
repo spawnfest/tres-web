@@ -1,7 +1,16 @@
 defmodule InspectorDaya.Dweb.Multiaddr.Protocols do
+  @moduledoc """
+  Module contains functions to parse a libp2p multiaddr
+  and gives a result demonstrating the interpretation of the multiaddr
+
+  The multiaddress is parsed from left to right , however the address is interpreted from right to
+  left, creating layers for the connection.
+  """
+
   defstruct [:name, :size, :path, :parameter]
   alias InspectorDaya.Dweb.Multiaddr.Protocols
 
+  @spec new(String.t(), integer(), boolean()) :: Protocol | {:error, any}
   def new(name, size, path) do
     __MODULE__.__struct__(
       name: name,
@@ -10,6 +19,51 @@ defmodule InspectorDaya.Dweb.Multiaddr.Protocols do
     )
   end
 
+  @doc """
+  Parses a multi address string and gives the list of protocols(including parameters) involved as a list
+  in the order of interpretation
+
+  Returns :error if the string is malformed or missing parameters to protocols that require it.
+  ##Examples
+  iex(2)> InspectorDaya.Dweb.Multiaddr.Protocols.parse_multiaddr("/dns4/example.com/tcp/1234/tls/ws/tls")
+  {:ok,
+  [
+   %InspectorDaya.Dweb.Multiaddr.Protocols{
+     name: "dns4",
+     parameter: "example.com",
+     path: false,
+     size: -1
+   },
+   %InspectorDaya.Dweb.Multiaddr.Protocols{
+     name: "tcp",
+     parameter: "1234",
+     path: false,
+     size: 16
+   },
+   %InspectorDaya.Dweb.Multiaddr.Protocols{
+     name: "tls",
+     parameter: nil,
+     path: false,
+     size: 0
+   },
+   %InspectorDaya.Dweb.Multiaddr.Protocols{
+     name: "ws",
+     parameter: nil,
+     path: false,
+     size: 0
+   },
+   %InspectorDaya.Dweb.Multiaddr.Protocols{
+     name: "tls",
+     parameter: nil,
+     path: false,
+     size: 0
+   }
+  ]}
+
+  iex(3)> InspectorDaya.Dweb.Multiaddr.Protocols.parse_multiaddr("/dns4/example.com/tcp/tls/ws/tls")
+  {:error, "required parameter"}
+  """
+  @spec parse_multiaddr(String.t()) :: {:error, any} | {:ok, list(Protocols)}
   def parse_multiaddr("") do
     {:error, "empty multiaddr string"}
   end
@@ -19,20 +73,22 @@ defmodule InspectorDaya.Dweb.Multiaddr.Protocols do
     parse_tokens(tokens, [])
   end
 
-  def parse_tokens(_, _, error \\ :ok)
+  @spec parse_tokens(list(String.t()), list(Protocols), :ok | :error) ::
+          {:ok, list(Protocols)} | {:error, any}
+  defp parse_tokens(_, _, error \\ :ok)
 
-  def parse_tokens(_, _, {:error, error}) do
+  defp parse_tokens(_, _, {:error, error}) do
     {:error, error}
   end
 
-  def parse_tokens([], result, _) do
+  defp parse_tokens([], result, _) do
     case Enum.count(result) do
       0 -> {:error, "empty string"}
       _ -> {:ok, Enum.reverse(result)}
     end
   end
 
-  def parse_tokens([head | tail], result, _) do
+  defp parse_tokens([head | tail], result, _) do
     with {:ok, protocol} <- get_protocol(head),
          {%Protocols{} = p, tokens} <- check_path_parameter(protocol, tail) do
       parse_tokens(tokens, [p | result])
@@ -41,7 +97,9 @@ defmodule InspectorDaya.Dweb.Multiaddr.Protocols do
     end
   end
 
-  def check_path_parameter(%Protocols{path: true} = protocol, tail) do
+  @spec check_path_parameter(Protocols, list(String.t())) ::
+          {:error, any} | {Protocols, list(String.t())}
+  defp check_path_parameter(%Protocols{path: true} = protocol, tail) do
     case Enum.count(tail) do
       0 ->
         {:error, "path needed for protocol " <> protocol.name}
@@ -52,33 +110,36 @@ defmodule InspectorDaya.Dweb.Multiaddr.Protocols do
     end
   end
 
-  def check_path_parameter(%Protocols{size: size} = protocol, tail) when size != 0 do
+  defp check_path_parameter(%Protocols{size: size} = protocol, tail) when size != 0 do
     with {:ok, param, tokens} <- get_parameter(tail) do
       protocol = %{protocol | parameter: param}
       {protocol, tokens}
     end
   end
 
-  def check_path_parameter(protocol, tail) do
+  defp check_path_parameter(protocol, tail) do
     {protocol, tail}
   end
 
-  def get_parameter([]) do
+  @spec get_parameter(list(String.t())) ::
+          {:ok, String.t(), list(String.t())} | {:error, String.t()}
+  defp get_parameter([]) do
     {:error, "required parameter"}
   end
 
-  def get_parameter([head | tail]) do
+  defp get_parameter([head | tail]) do
     case get_protocol(head) do
       {:error, _} -> {:ok, head, tail}
       _ -> {:error, "required parameter"}
     end
   end
 
-  def get_protocol("ipfs") do
+  @spec get_protocol(String.t()) :: {:ok, Protocols} | {:error, any}
+  defp get_protocol("ipfs") do
     get_protocol("p2p")
   end
 
-  def get_protocol(name) do
+  defp get_protocol(name) do
     case name do
       "ip4" ->
         {:ok, new(name, 32, false)}
