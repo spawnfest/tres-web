@@ -1,6 +1,7 @@
 defmodule InspectorDayaWeb.PageLive do
   @moduledoc false
   use InspectorDayaWeb, :live_view
+  alias InspectorDaya.Dweb.Ipfs
   # alias InspectorDayaWeb.Router.Helpers, as: Routes
   @impl true
   def mount(_params, _session, socket) do
@@ -69,7 +70,7 @@ defmodule InspectorDayaWeb.PageLive do
         "Size" => size,
         "Type" => type
       }
-    }}} = Ipfx.file_ls(cid)
+    }}} = Ipfs.file_ls(cid)
 
       ipfs_details = %{
         hash: hash,
