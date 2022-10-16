@@ -107,36 +107,6 @@ defmodule InspectorDayaWeb.PageLive do
           size: 0,
           path: false,
           parameter: nil
-        },
-        %{
-          name: "dns4",
-          size: -1,
-          path: false,
-          parameter: "example.com"
-        },
-        %{
-          name: "tcp",
-          size: 16,
-          path: false,
-          parameter: "1234"
-        },
-        %{
-          name: "tls",
-          size: 0,
-          path: false,
-          parameter: nil
-        },
-        %{
-          name: "ws",
-          size: 0,
-          path: false,
-          parameter: nil
-        },
-        %{
-          name: "tls",
-          size: 0,
-          path: false,
-          parameter: nil
         }
       ]
       |> Enum.with_index()

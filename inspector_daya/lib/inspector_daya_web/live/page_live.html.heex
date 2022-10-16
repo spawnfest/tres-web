@@ -9,110 +9,118 @@
 
 
 <div class="flex flex-column">
-  <div class="border-l-2 border-blue-600 flex flex-row w-5/12" style={"display:#{@decoded_details_display}"}>
+  <div class="flex flex-row w-5/12" style={"display:#{@decoded_details_display}"}>
+
+    <div>
+      <div>
+        <div>CID</div>
+        <div>EXPLORER</div>
+      </div>
+      <div> PREVIEW </div>
+    </div>
     
-    <div class="px-4 py-2">
+    <div class="px-4 py-2 w-full">
       <div class="px-4 py-2 font-mono text-blue text-left"> HUMANIZE</div>
       <div class="px-4 py-2 font-mono text-indigo-900 text-left"> <%= @cid_details.humanize %></div>
     </div>
 
-    <div class="px-4 py-2">
+    <div class="px-4 py-2  w-full">
         <div class="px-4 py-2 font-mono text-blue text-left"> VERSION </div>
         <div class="px-4 py-2 font-mono text-indigo-900 text-left"> <%= @cid_details.version %></div>
     </div>
     
-    <div class="px-4 py-2">
+    <div class="px-4 py-2  w-full">
       <div class="px-4 py-2 font-mono text-blue text-left"> MULTIBASE </div>
-      <table>
+      <table class="table-fixed border-collapse w-full">
       <tr>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left">CODE</td>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multibase.code %></td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">CODE</td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multibase.code %></td>
       </tr>
       <%= if @cid_details.multibase.description != "" do %>
         <tr>
-          <td class="px-4 py-2 font-mono text-indigo-900 text-left">DESCRIPTION</td>
-          <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multibase.description %></td>
+          <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">DESCRIPTION</td>
+          <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multibase.description %></td>
         </tr>
       <% end %>
       <tr>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left">ENCODING</td>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multibase.encoding %></td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">ENCODING</td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multibase.encoding %></td>
       </tr>
       </table>
     </div>
     
-    <div class="px-4 py-2">
+    <div class="px-4 py-2 w-full">
       <div class="px-4 py-2 font-mono text-blue text-left"> MULTICODEC </div>
       <table>
       <tr>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left">CODE</td>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multicodec.code %></td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">CODE</td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multicodec.code %></td>
       </tr>
       <%= if @cid_details.multicodec.description != "" do %>
         <tr>
-          <td class="px-4 py-2 font-mono text-indigo-900 text-left">DESCRIPTION</td>
-          <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multicodec.description %></td>
+          <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">DESCRIPTION</td>
+          <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multicodec.description %></td>
         </tr>
       <% end %>
       <tr>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left">NAME</td>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multicodec.name %></td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">NAME</td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multicodec.name %></td>
       </tr>
       <tr>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left">TAG</td>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multicodec.tag %></td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">TAG</td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multicodec.tag %></td>
       </tr>
       </table>
     </div>
 
-    <div class="px-4 py-2">
+    <div class="px-4 py-2 w-full">
       <div class="px-4 py-2 font-mono text-blue text-left"> MULTIHASH </div>
       <table>
       <tr>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left">CODE</td>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multihash.code.code %></td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">CODE</td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multihash.code.code %></td>
       </tr>
       <%= if @cid_details.multihash.code.description != "" do %>
         <tr>
-          <td class="px-4 py-2 font-mono text-indigo-900 text-left">DESCRIPTION</td>
-          <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multihash.code.description %></td>
+          <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">DESCRIPTION</td>
+          <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multihash.code.description %></td>
         </tr>
       <% end %>
       <tr>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left">NAME</td>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multihash.code.name %></td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">NAME</td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multihash.code.name %></td>
       </tr>
       <tr>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left">TAG</td>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multihash.code.tag %></td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">TAG</td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multihash.code.tag %></td>
       </tr>
       <tr>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left">DIGEST</td>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multihash.digest %></td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">DIGEST</td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multihash.digest %></td>
       </tr>
       <tr>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left">ALGO</td>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multihash.multihash_algo %></td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">ALGO</td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multihash.multihash_algo %></td>
       </tr>
       </table>
     </div>
     
-    <div class="px-4 py-2">
+    <div class="px-4 py-2 w-full">
       <div class="px-4 py-2 font-mono text-blue text-left"> CONVERSIONS </div>
       <table>
       <tr>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left">CID V0 </td>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.v0 %></td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">CID V0 </td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.v0 %></td>
       </tr>
       <tr>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left">CID V1 </td>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.v1 %></td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">CID V1 </td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.v1 %></td>
       </tr>
       </table>
     </div>
   </div>
 
-  <div class="border-l-2 border-blue-600 flex flex-row w-7/12" style={"display:#{@decoded_details_display}"}>
+  <div class="flex flex-row w-7/12" style={"display:#{@decoded_details_display}"}>
         
     <div class="px-4 py-2">
       <div class="px-4 py-2 font-mono text-blue text-left"> EXPLORER </div>
@@ -144,6 +152,7 @@
             <a href={"http://localhost:8080/ipfs/#{@cid}"}> <%= @cid %> </a>
             </td>
           </tr>
+          <p><iframe src={"http://localhost:8080/ipfs/#{@cid}"} frameborder="0" height="400"width="95%"></iframe></p>
         <% end %>
       </table>
 
