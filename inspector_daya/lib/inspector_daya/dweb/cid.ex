@@ -57,9 +57,8 @@ defmodule InspectorDaya.Dweb.Cid do
   def decode(cid) do
     with true <- CID.cid?(cid),
          {:ok, humanize} <- CID.humanize(cid),
-         {:ok, {cid_struct, multibase}} <- CID.decode(cid) do
-      %CID{version: version, codec: codec, multihash: _multihash} = cid_struct
-
+         {:ok, {cid_struct, multibase}} <- CID.decode(cid),
+         %CID{version: version, codec: codec, multihash: _multihash} <- cid_struct do
       {:ok,
        %{
          humanize: humanize,
@@ -144,8 +143,7 @@ defmodule InspectorDaya.Dweb.Cid do
   @spec cid_v0(CID.t(), multihash_details()) :: String.t() | nil
   defp cid_v0(
          %CID{version: 0} = cid_struct,
-         %{multibase: "base58_btc", multicodec: "dag-pb", multihash_algo: "sha2_256"} =
-           _props
+         %{multibase: "base58_btc", multicodec: "dag-pb", multihash_algo: "sha2_256"} = _props
        ) do
     cid_struct |> CID.encode!()
   end
@@ -163,7 +161,7 @@ defmodule InspectorDaya.Dweb.Cid do
 
   @spec cid_v1(CID.t()) :: String.t()
   defp cid_v1(%CID{version: 1} = cid_struct) do
-    CID.encode!(cid_struct)
+    CID.encode!(cid_struct, :base32_lower)
   end
 
   defp cid_v1(cid_struct) do
