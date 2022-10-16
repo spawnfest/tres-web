@@ -41,14 +41,30 @@ defmodule InspectorDaya.Dweb.CidTest do
                Cid.decode(<<0, "Zdj7WhuEjrB52m1BisYCtmjH1hSKa7yZ3jEZ9JcXaFRD51wVz">>)
     end
 
-    @tag :cidv1
     test "valid cidv1" do
       assert {:ok, decoded_data} =
                Cid.decode("bafybeifbi5kvm5vqulleun2kbfq7zmzwfo7qyxrpsmnzzvmqjsm2eegqvy")
 
-      # IO.inspect(decoded_data)
       assert %{version: 1, v1: "bafybeifbi5kvm5vqulleun2kbfq7zmzwfo7qyxrpsmnzzvmqjsm2eegqvy"} =
                decoded_data
+    end
+
+    test "Valid cidv1 to cidv0 compatible conversion" do
+      digest = :crypto.hash(:sha256, "hello world")
+      {:ok, multihash} = Multihash.encode(:sha2_256, digest)
+      codec = "dag-pb"
+      cid_struct = %CID{version: 1, multihash: multihash, codec: codec}
+      cid = CID.encode!(cid_struct)
+      assert {:ok, %{version: 1, v0: "Qm" <> _}} = Cid.decode(cid)
+    end
+
+    test "Invalid cidv1 to cidv0 compatible conversion" do
+      digest = :crypto.hash(:sha256, "hello world")
+      {:ok, multihash} = Multihash.encode(:sha2_256, digest)
+      codec = "dag-pb"
+      cid_struct = %CID{version: 1, multihash: multihash, codec: codec}
+      cid = CID.encode!(cid_struct, :base32_lower)
+      assert {:ok, %{version: 1, v0: nil}} = Cid.decode(cid)
     end
   end
 end

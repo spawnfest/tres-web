@@ -56,7 +56,7 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 config :inspector_daya, base_url: "http://localhost:8080/ipfs"
-config :inspector_daya, base_api_url: "http://localhost:5001/api/v0"
+config :inspector_daya, base_api_url: "https://localhost:5001/api/v0"
 
 config :tesla, :adapter, Tesla.Adapter.Hackney
 

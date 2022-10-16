@@ -1,6 +1,6 @@
 defmodule InspectorDaya.Dweb.Cid do
   @moduledoc """
-  This module contains various operations to handle CIDs, such encoding, decoding, transforming etc..
+  Module contains various operations to handle CIDs, such as encoding, decoding, transforming etc..
 
   CID - Self-describing content-addressed identifiers for distributed systems
   """
@@ -35,21 +35,36 @@ defmodule InspectorDaya.Dweb.Cid do
           description: String.t()
         }
 
-  # TODO typedoc for multihash_details
+  @typedoc """
+  Details of a Multihash
+
+
+  """
   @type multihash_details :: %{
           multihash_algo: String.t(),
           code: multicodec_details(),
           digest: String.t()
         }
 
-  @type cid_properties :: %{
+  @typedoc """
+  Fields or parts contained in a CID
+
+  - multibase - Represents the base encoding used when converting CIDs between string and binary formats
+  - version - Version of the CID
+  - multicodec - Encoding used to encode the data itself
+  - multihash_algo - Algorithm used for generating the hash
+  - digest - The actual data which will be in hashed form
+  """
+  @type cid_parts :: %{
           multibase: String.t(),
           version: String.t(),
           multicodec: String.t(),
           multihash_algo: String.t(),
           digest: String.t()
         }
+
   # TODO: Expand the doc
+
   @doc """
   Decodes a CID in detail
   """
@@ -66,7 +81,7 @@ defmodule InspectorDaya.Dweb.Cid do
          version: version,
          multicodec: multicodec_prefix_details(codec),
          multihash: multihash_details(cid),
-         v0: cid_v0(cid_struct, get_cid_properties(cid)),
+         v0: cid_v0(cid_struct, get_cid_parts(cid)),
          v1: cid_v1(cid_struct)
        }}
     else
@@ -115,7 +130,7 @@ defmodule InspectorDaya.Dweb.Cid do
   @spec multihash_details(String.t()) :: multihash_details()
   defp multihash_details(cid) do
     cid
-    |> get_cid_properties()
+    |> get_cid_parts()
     |> then(fn cid_props ->
       %{
         multihash_algo: cid_props.multihash_algo,
@@ -125,8 +140,8 @@ defmodule InspectorDaya.Dweb.Cid do
     end)
   end
 
-  @spec get_cid_properties(String.t()) :: cid_properties()
-  defp get_cid_properties(cid) do
+  @spec get_cid_parts(String.t()) :: cid_parts()
+  defp get_cid_parts(cid) do
     CID.humanize(cid, "::")
     |> then(fn {:ok, props} -> props |> String.split("::") end)
     |> then(fn [multibase, version, multicodec, multihash_algo, digest] ->
@@ -157,12 +172,11 @@ defmodule InspectorDaya.Dweb.Cid do
     |> then(fn {:ok, cid_struct_v0} -> CID.encode!(cid_struct_v0) end)
   end
 
+  # Case where a cid struct can't be converted to V0, since multibase is incompatible
   defp cid_v0(_, _), do: nil
 
   @spec cid_v1(CID.t()) :: String.t()
-  defp cid_v1(%CID{version: 1} = cid_struct) do
-    CID.encode!(cid_struct, :base32_lower)
-  end
+  defp cid_v1(%CID{version: 1} = cid_struct), do: CID.encode!(cid_struct, :base32_lower)
 
   defp cid_v1(cid_struct) do
     {:ok, cid_struct_v1} = cid_struct |> CID.to_version(1)

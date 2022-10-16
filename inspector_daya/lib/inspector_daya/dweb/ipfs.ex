@@ -1,12 +1,17 @@
 defmodule InspectorDaya.Dweb.Ipfs do
   def post_it(path, params \\ %{}) do
+    IO.inspect(path)
+    IO.inspect(params)
+
     Tesla.post(client(), path, params)
+    |> IO.inspect()
     |> case do
       {:ok, %Tesla.Env{status: 200, body: body}} -> {:ok, body}
       {:ok, %Tesla.Env{status: 400, body: body}} -> {:error, body}
       {:ok, %Tesla.Env{status: 500, body: body}} -> {:error, body}
       {:ok, %Tesla.Env{status: 404}} -> {:error, "NOT FOUND"}
       {:error, reason} -> {:error, "SOMETHING WENT WRONG DUE TO #{inspect(reason)}"}
+      _ -> "YO"
     end
   end
 
