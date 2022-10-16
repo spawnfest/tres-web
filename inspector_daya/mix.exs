@@ -7,11 +7,7 @@ defmodule InspectorDaya.MixProject do
       version: "0.1.0",
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
-<<<<<<< HEAD
-      compilers: [] ++ Mix.compilers(),
-=======
       compilers: Mix.compilers(),
->>>>>>> master
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
