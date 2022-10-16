@@ -1,6 +1,6 @@
-defmodule InspectorDaya.Multiaddr.Protocols do
+defmodule InspectorDaya.Dweb.Multiaddr.Protocols do
   defstruct [:name, :size, :path, :parameter]
-  alias InspectorDaya.Multiaddr.Protocols
+  alias InspectorDaya.Dweb.Multiaddr.Protocols
 
   def new(name, size, path) do
     __MODULE__.__struct__(
@@ -42,8 +42,10 @@ defmodule InspectorDaya.Multiaddr.Protocols do
   end
 
   def check_path_parameter(%Protocols{path: true} = protocol, tail) do
-    case Enum.count(tail)do
-      0 -> {:error, "path needed for protocol "<>protocol.name}
+    case Enum.count(tail) do
+      0 ->
+        {:error, "path needed for protocol " <> protocol.name}
+
       _ ->
         protocol = %{protocol | parameter: Enum.join(tail, "/")}
         {protocol, []}

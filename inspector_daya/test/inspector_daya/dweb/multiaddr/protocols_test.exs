@@ -1,7 +1,7 @@
-defmodule ProtocolsTest do
+defmodule InspectorDaya.Dweb.Multiaddr.ProtocolsTest do
   use ExUnit.Case
 
-  alias InspectorDaya.Multiaddr.Protocols
+  alias InspectorDaya.Dweb.Multiaddr.Protocols
 
   describe "test get protocols" do
     test "get ip4" do
@@ -49,7 +49,7 @@ defmodule ProtocolsTest do
 
   describe "test path parameter" do
     test "test with path parameter" do
-      {status, [head|tail]} = Protocols.parse_multiaddr("/unix/path/to/sock")
+      {status, [head | _tail]} = Protocols.parse_multiaddr("/unix/path/to/sock")
       assert status == :ok
       assert head.parameter == "path/to/sock"
     end
