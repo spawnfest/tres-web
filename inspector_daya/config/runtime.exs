@@ -16,9 +16,9 @@ import Config
 #
 # Alternatively, you can use `mix phx.gen.release` to generate a `bin/server`
 # script that automatically sets the env var above.
-if System.get_env("PHX_SERVER") do
-  config :inspector_daya, InspectorDayaWeb.Endpoint, server: true
-end
+# if System.get_env("PHX_SERVER") do
+config :inspector_daya, InspectorDayaWeb.Endpoint, server: true
+# end
 
 if config_env() == :prod do
   # The secret key base is used to sign/encrypt cookies and other secrets.
@@ -26,15 +26,9 @@ if config_env() == :prod do
   # want to use a different value for prod and you most likely don't want
   # to check this value into version control, so we use an environment
   # variable instead.
-  secret_key_base =
-    System.get_env("SECRET_KEY_BASE") ||
-      raise """
-      environment variable SECRET_KEY_BASE is missing.
-      You can generate one by calling: mix phx.gen.secret
-      """
 
-  host = System.get_env("PHX_HOST") || "example.com"
-  port = String.to_integer(System.get_env("PORT") || "4000")
+  # host = System.get_env("PHX_HOST") || "example.com"
+  # port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :inspector_daya, InspectorDayaWeb.Endpoint,
     url: [host: host, port: 443, scheme: "https"],
@@ -44,9 +38,9 @@ if config_env() == :prod do
       # See the documentation on https://hexdocs.pm/plug_cowboy/Plug.Cowboy.html
       # for details about using IPv6 vs IPv4 and loopback vs public addresses.
       ip: {0, 0, 0, 0, 0, 0, 0, 0},
-      port: port
+      port: 4000
     ],
-    secret_key_base: secret_key_base
+    secret_key_base: "F6VQSHme6C3VrbZVwaBcVCkc/YHc1xbTRTc9H/oJoLquEen+AOXRPCaQSrdAN/9Q"
 
   # ## Configuring the mailer
   #
