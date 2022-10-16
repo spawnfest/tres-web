@@ -25,19 +25,19 @@ defmodule InspectorDayaWeb.PageLive do
          },
          v0: "",
          v1: "",
-         version: 0,
-        },
-        ipfs_details: %{
-          hash: "",
-          links: [],
-          size: 0,
-          type: ""
-        }
+         version: 0
+       },
+       ipfs_details: %{
+         hash: "",
+         links: [],
+         size: 0,
+         type: ""
+       }
      )}
   end
 
   @impl true
-  def handle_params(%{"cid" => cid}=_params, _uri, socket) do
+  def handle_params(%{"cid" => cid} = _params, _uri, socket) do
     socket = decode(cid, socket)
     {:noreply, socket}
   end
@@ -55,7 +55,7 @@ defmodule InspectorDayaWeb.PageLive do
 
   @impl true
   def handle_event("decode", %{"value" => cid} = _params, socket) do
-    cid |> IO.inspect(label: "CID")
+    # cid |> IO.inspect(label: "CID")
     socket = decode(cid, socket)
     {:noreply, push_redirect(socket, to: "/#{cid}")}
   end
@@ -63,21 +63,25 @@ defmodule InspectorDayaWeb.PageLive do
   defp decode(cid, socket) do
     {:ok, cid_details} = InspectorDaya.Dweb.Cid.decode(cid)
 
-    {:ok, %{"Objects" => %{
-      ^cid => %{
-        "Hash" => hash,
-        "Links" => links,
-        "Size" => size,
-        "Type" => type
-      }
-    }}} = Ipfs.file_ls(cid)
+    {:ok,
+     %{
+       "Objects" => %{
+         ^cid => %{
+           "Hash" => hash,
+           "Links" => links,
+           "Size" => size,
+           "Type" => type
+         }
+       }
+     }} = Ipfs.file_ls(cid)
 
-      ipfs_details = %{
-        hash: hash,
-        links: links,
-        size: size,
-        type: type
-      }
+    ipfs_details = %{
+      hash: hash,
+      links: links,
+      size: size,
+      type: type
+    }
+
     socket
     |> assign(cid: cid)
     |> assign(decoded_details_display: "block")

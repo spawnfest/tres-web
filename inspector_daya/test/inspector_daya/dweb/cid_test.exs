@@ -43,7 +43,12 @@ defmodule InspectorDaya.Dweb.CidTest do
 
     @tag :cidv1
     test "valid cidv1" do
-      assert {:ok, decoded_data} = Cid.decode("bafybeifbi5kvm5vqulleun2kbfq7zmzwfo7qyxrpsmnzzvmqjsm2eegqvy")
+      assert {:ok, decoded_data} =
+               Cid.decode("bafybeifbi5kvm5vqulleun2kbfq7zmzwfo7qyxrpsmnzzvmqjsm2eegqvy")
+
+      # IO.inspect(decoded_data)
+      assert %{version: 1, v1: "bafybeifbi5kvm5vqulleun2kbfq7zmzwfo7qyxrpsmnzzvmqjsm2eegqvy"} =
+               decoded_data
     end
   end
 end
