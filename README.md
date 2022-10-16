@@ -1,3 +1,3 @@
 # Inspector Daya
 
-> A blazing fast CID inspector
+> A CID Inspector and more.. 🕵🏻‍♂️
