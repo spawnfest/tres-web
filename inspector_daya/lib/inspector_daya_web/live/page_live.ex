@@ -10,6 +10,9 @@ defmodule InspectorDayaWeb.PageLive do
        cid: "",
        decoded_details_display: "none",
        decoded_multiaddr_display: "none",
+       show_cid_details: false,
+       show_explorer_details: false,
+       clicked_cid: "",
        cid_details: %{
          humanize: "",
          multibase: %{code: "", description: "", encoding: ""},
@@ -46,6 +49,33 @@ defmodule InspectorDayaWeb.PageLive do
 
   @impl true
   def handle_params(_params, _uri, socket) do
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("show-cid-details", _params, socket) do
+    socket =
+      socket
+      |> assign(:show_cid_details, true)
+      |> assign(:show_explorer_details, false)
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("show-explorer-details", _params, socket) do
+    socket =
+      socket
+      |> assign(:show_cid_details, false)
+      |> assign(:show_explorer_details, true)
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("clicked-cid", params, socket) do
+    params |> IO.inspect(label: "CLICKED")
+    socket =
+      socket
+      |> assign(:clicked_cid, params["clicked-cid"])
     {:noreply, socket}
   end
 
@@ -142,9 +172,12 @@ defmodule InspectorDayaWeb.PageLive do
 
     socket
     |> assign(cid: cid)
+    |> assign(:clicked_cid, cid)
     |> assign(decoded_details_display: "block")
     |> assign(cid_details: cid_details)
     |> assign(ipfs_details: ipfs_details)
+    |> assign(ipfs_details: ipfs_details)
+    |> assign(show_cid_details: true)
   end
 
   defp display(index), do: %{index: index + 1, color: random_color(), size: (index + 1) * 150}
