@@ -1,7 +1,7 @@
 <div class="flex px-4 py-4 w-full justify-center">
   <div class="w-2/4">
     <form phx-submit="decode" class="input-group relative flex w-full mb-4">
-      <input type="text" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" name="cid-value" placeholder="Enter CID" value={@cid} aria-label="Search" aria-describedby="button-addon3">
+      <input type="text" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" name="cid-value" placeholder="Enter CID or MultiAddr String" value={@cid} aria-label="Search" aria-describedby="button-addon3">
       <button class="inline-block px-6 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" type="submit" id="button-addon3">Decode</button>
     </form>
   </div>
@@ -15,16 +15,16 @@
       <div>
         <table class="table-fixed border-collapse w-full">
           <tr> 
-            <td class={"#{if @show_cid_details, do: "bg-indigo-800 text-white"} #{if @show_explorer_details, do: "bg-indigo-200 text-indigo-900"} px-4 py-2 font-mono  text-center border-2 border-indigo-800"} phx-click="show-cid-details">
-            <%!-- <button class="inline-block px-6 py-1.5 bg-pink-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-pink-700 hover:shadow-lg focus:bg-pink-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-800 active:shadow-lg transition duration-150 ease-in-out"> --%>
-            CID
-            <%!-- </button> --%>
+            <td class={"#{if @show_cid_details, do: "bg-blue-600 text-white"} #{if @show_explorer_details, do: "bg-indigo-200 text-indigo-900"} 
+            text-center px-6 py-1.5 h-12 bg-blue-600 text-white hover:text-white font-medium text-xl leading-tight uppercase shadow-md hover:bg-blue-400 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out
+            "} phx-click="show-cid-details">
+            CID BREAKDOWN
             </td>
             
-            <td class={"#{if @show_explorer_details, do: "bg-indigo-800 text-white"} #{if @show_cid_details, do: "bg-indigo-200 text-indigo-900"} px-4 py-2 font-mono text-center border-2 border-indigo-800"} phx-click="show-explorer-details">
-            <%!-- <button class="inline-block px-6 py-1.5 bg-pink-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-pink-700 hover:shadow-lg focus:bg-pink-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-800 active:shadow-lg transition duration-150 ease-in-out"> --%>
-            EXPLORER
-            <%!-- </button> --%>
+            <td class={"#{if @show_explorer_details, do: "bg-blue-600 text-white"} #{if @show_cid_details, do: "bg-indigo-200 text-indigo-900"} 
+            text-center px-6 py-1.5 h-12 bg-blue-600 text-white hover:text-white font-medium text-xl leading-tight uppercase shadow-md hover:bg-blue-400 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out
+            "} phx-click="show-explorer-details">
+            CID FILE EXPLORER
             </td>
           </tr>
         </table>
@@ -33,101 +33,105 @@
           <%= if @show_cid_details do %>
 
             <div class="px-4 py-2 w-full">
-              <div class="px-4 py-2 font-mono text-blue text-left"> HUMANIZE</div>
+              <div class="py-2 font-mono text-blue text-left"> HUMANIZE</div>
               <div class="px-4 py-2 font-mono text-indigo-900 text-left"> <%= @cid_details.humanize %></div>
             </div>
 
             <div class="px-4 py-2  w-full">
-              <div class="px-4 py-2 font-mono text-blue text-left"> VERSION </div>
+              <div class="py-2 font-mono text-blue text-left"> VERSION </div>
               <div class="px-4 py-2 font-mono text-indigo-900 text-left"> <%= @cid_details.version %></div>
             </div>
 
-            <div class="px-4 py-2  w-full">
-              <div class="px-4 py-2 font-mono text-blue text-left"> MULTIBASE </div>
-              <table class="table-fixed border-collapse w-full">
-                <tr>
-                  <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">CODE</td>
-                  <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multibase.code %></td>
-                </tr>
-                <%= if @cid_details.multibase.description != "" do %>
-                <tr>
-                  <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">DESCRIPTION</td>
-                  <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multibase.description %></td>
+            <div class="flex flex-column w-full">
+              
+              <div class="px-4 py-2  w-1/2">
+                <div class="py-2 font-mono text-blue text-left"> MULTIBASE </div>
+                <table class="border-collapse  w-full">
+                  <tr>
+                    <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">CODE</td>
+                    <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-200"><%= @cid_details.multibase.code %></td>
                   </tr>
+                  <%= if @cid_details.multibase.description != "" do %>
+                  <tr>
+                    <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">DESCRIPTION</td>
+                    <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-200"><%= @cid_details.multibase.description %></td>
+                    </tr>
+                  <% end %>
+                  <tr>
+                    <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">ENCODING</td>
+                    <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-200"><%= @cid_details.multibase.encoding %></td>
+                  </tr>
+                </table>
+              </div>
+            
+              <div class="px-4 py-2 w-1/2">
+                <div class="py-2 font-mono text-blue text-left"> MULTICODEC </div>
+                <table class="border-collapse  w-full">
+                <tr>
+                  <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">CODE</td>
+                  <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-200"><%= @cid_details.multicodec.code %></td>
+                </tr>
+                <%= if @cid_details.multicodec.description != "" do %>
+                <tr>
+                  <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">DESCRIPTION</td>
+                  <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-200"><%= @cid_details.multicodec.description %></td>
+                </tr>
                 <% end %>
                 <tr>
-                  <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">ENCODING</td>
-                  <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multibase.encoding %></td>
+                  <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">NAME</td>
+                  <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-200"><%= @cid_details.multicodec.name %></td>
                 </tr>
-              </table>
+                <tr>
+                  <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">TAG</td>
+                  <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-200"><%= @cid_details.multicodec.tag %></td>
+                </tr>
+                </table>
+              </div>
             </div>
 
-            <div class="px-4 py-2 w-full">
-              <div class="px-4 py-2 font-mono text-blue text-left"> MULTICODEC </div>
-              <table class="table-fixed border-collapse w-full">
-              <tr>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">CODE</td>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multicodec.code %></td>
-              </tr>
-              <%= if @cid_details.multicodec.description != "" do %>
-              <tr>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">DESCRIPTION</td>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multicodec.description %></td>
-              </tr>
-              <% end %>
-              <tr>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">NAME</td>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multicodec.name %></td>
-              </tr>
-              <tr>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">TAG</td>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multicodec.tag %></td>
-              </tr>
-              </table>
-            </div>
 
             <div class="px-4 py-2 w-full">
-              <div class="px-4 py-2 font-mono text-blue text-left"> MULTIHASH </div>
-              <table class="table-fixed border-collapse w-full">
+              <div class="py-2 font-mono text-blue text-left"> MULTIHASH </div>
+              <table class="border-collapse  w-full">
               <tr>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">CODE</td>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multihash.codec_details.code %></td>
+                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">CODE</td>
+                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-200"><%= @cid_details.multihash.codec_details.code %></td>
               </tr>
               <%= if @cid_details.multihash.codec_details.description != "" do %>
               <tr>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">DESCRIPTION</td>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multihash.codec_details.description %></td>
+                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">DESCRIPTION</td>
+                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-200"><%= @cid_details.multihash.codec_details.description %></td>
               </tr>
               <% end %>
               <tr>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">NAME</td>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multihash.codec_details.name %></td>
+                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">NAME</td>
+                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-200"><%= @cid_details.multihash.codec_details.name %></td>
               </tr>
               <tr>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">TAG</td>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multihash.codec_details.tag %></td>
+                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">TAG</td>
+                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-200"><%= @cid_details.multihash.codec_details.tag %></td>
               </tr>
               <tr>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">DIGEST</td>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multihash.digest %></td>
+                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">DIGEST</td>
+                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-200"><%= @cid_details.multihash.digest %></td>
               </tr>
               <tr>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">ALGO</td>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.multihash.multihash_algo %></td>
+                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">ALGO</td>
+                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-200"><%= @cid_details.multihash.multihash_algo %></td>
               </tr>
               </table>
             </div>
 
             <div class="px-4 py-2 w-full">
-              <div class="px-4 py-2 font-mono text-blue text-left"> CONVERSIONS </div>
-              <table class="table-fixed border-collapse w-full">
+              <div class="py-2 font-mono text-blue text-left"> CONVERSIONS </div>
+              <table class="border-collapse  w-full">
               <tr>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">CID V0 </td>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.v0 %></td>
+                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">CID V0 </td>
+                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-200"><%= @cid_details.v0 %></td>
               </tr>
               <tr>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">CID V1 </td>
-                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @cid_details.v1 %></td>
+                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">CID V1 </td>
+                <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-200"><%= @cid_details.v1 %></td>
               </tr>
               </table>
             </div>
@@ -136,32 +140,32 @@
           <%= if @show_explorer_details do %>
 
               <div class="px-4 py-2 flex flex-column">
-                <div class="w-7/12">
+                <div class={"#{ if @ipfs_details.type == "File", do: "w-1/2", else: "w-7/12"}" }>
                   <div class="px-4 py-2 font-mono text-blue text-left"> EXPLORER </div>
                   <table>
                     <tr phx-click="clicked-cid" phx-value-clicked-cid={"#{@ipfs_details.hash}"} class="hover:bg-indigo-200 cursor-pointer" >
-                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">HASH</td>
-                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @ipfs_details.hash %></td>
+                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">HASH</td>
+                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-200"><%= @ipfs_details.hash %></td>
                     </tr>
                     <%= if @ipfs_details.type == "File" do %>
                     <tr>
-                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">SIZE</td>
-                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @ipfs_details.size %></td>
+                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">SIZE</td>
+                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-200"><%= @ipfs_details.size %></td>
                     </tr>
                     <% else %>
                     <tr>
-                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">FILES</td>
-                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= Enum.count(@ipfs_details.links) %></td>
+                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">FILES</td>
+                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-200"><%= Enum.count(@ipfs_details.links) %></td>
                     </tr>
                     <% end %>
                     <tr>
-                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">TYPE</td>
-                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= @ipfs_details.type %></td>
+                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">TYPE</td>
+                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-200"><%= @ipfs_details.type %></td>
                     </tr>
                     <%= if @ipfs_details.type == "File" do %>
                     <tr>
-                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">PREVIEW</td>
-                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">
+                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">PREVIEW</td>
+                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-200">
                       <a href={"http://localhost:8080/ipfs/#{@cid}"}> <%= @cid %> </a>
                       </td>
                     </tr>
@@ -174,25 +178,25 @@
                     <div class="px-4 py-2 font-mono text-blue text-left"> CONTENTS </div>
                     <table >
                     <tr>
-                      <th class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">HASH </th>
-                      <th class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">NAME </th>
-                      <th class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">SIZE </th>
-                      <th class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">TYPE </th>
-                      <th class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">ACTION </th>
+                      <th class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">HASH </th>
+                      <th class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">NAME </th>
+                      <th class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">SIZE </th>
+                      <th class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">TYPE </th>
+                      <th class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-300">ACTION </th>
                     </tr>
                     <%= for content <- @ipfs_details.links do %>
                     <tr phx-click="clicked-cid" phx-value-clicked-cid={"#{content["Hash"]}"} class="hover:bg-indigo-200 cursor-pointer">
-                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= content["Hash"] %></td>
-                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= content["Name"] %></td>
-                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= content["Size"] %></td>
-                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"><%= content["Type"] %></td>
+                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-100"><%= content["Hash"] %></td>
+                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-100"><%= content["Name"] %></td>
+                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-100"><%= content["Size"] %></td>
+                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-100"><%= content["Type"] %></td>
                       <%= if content["Type"] == "Directory" do %>
-                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800"  >
+                      <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-200"  >
                         <button class="inline-block px-6 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" type="submit" id="button-addon3" phx-click="decode" name="cid-value" value={content["Hash"]}>DECODE</button>
                       </td>
                       <% else %>
-                        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-800">
-                        <button class="inline-block px-6 py-1.5 bg-pink-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-pink-700 hover:shadow-lg focus:bg-pink-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-800 active:shadow-lg transition duration-150 ease-in-out" type="submit" id="button-addon3" phx-click="decode" name="cid-value" value={content["Hash"]}>DECODE</button>
+                        <td class="px-4 py-2 font-mono text-indigo-900 text-left border-2 border-indigo-200">
+                        <button class="inline-block px-6 py-1.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" type="submit" id="button-addon3" phx-click="decode" name="cid-value" value={content["Hash"]}>DECODE</button>
                       </td>
                       <% end %>
                     </tr>
@@ -202,8 +206,8 @@
                   <% end %>
                 </div>
                 
-                <div class="border-l-2 px-4 py-2 font-mono text-blue text-left w-5/12">
-                  <iframe src={"http://localhost:8080/ipfs/#{@clicked_cid}"} frameborder="0" style={"width:100%;height:100%"}></iframe>
+                <div class={"border-l-2 px-4 py-2 font-mono text-blue text-left #{ if @ipfs_details.type == "File", do: "w-1/2", else: "w-5/12"}"}>
+                  <iframe src={"http://localhost:8080/ipfs/#{@clicked_cid}"} frameborder="0" style={"width:100%;height:100vh"}></iframe>
                 </div>
               </div>
 

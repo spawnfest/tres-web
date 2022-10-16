@@ -11,7 +11,7 @@ defmodule TresWebWeb.PageLive do
        cid: "",
        decoded_details_display: "none",
        decoded_multiaddr_display: "none",
-       show_cid_details: false,
+       show_cid_details: true,
        show_explorer_details: false,
        clicked_cid: "",
        cid_details: %{
@@ -75,8 +75,6 @@ defmodule TresWebWeb.PageLive do
 
   @impl true
   def handle_event("clicked-cid", params, socket) do
-    params |> IO.inspect(label: "CLICKED")
-
     socket =
       socket
       |> assign(:clicked_cid, params["clicked-cid"])
@@ -96,6 +94,8 @@ defmodule TresWebWeb.PageLive do
     {:noreply, push_redirect(socket, to: "/#{socket.assigns.cid}")}
   end
 
+  @spec decode_input(input :: String.t(), socket :: Phoenix.LiveView.Socket.t()) ::
+          Phoenix.LiveView.Socket.t()
   defp decode_input(input, socket) do
     if CID.cid?(input) do
       decode_cid(input, socket)
@@ -104,26 +104,28 @@ defmodule TresWebWeb.PageLive do
     end
   end
 
-  defp decode_multiaddr(maddr_string, socket) do
-    encoded_maddr_string =
-      case Base.decode64(maddr_string) do
-        :error -> Base.encode64(maddr_string)
-        _decoded -> maddr_string
+  @spec decode_input(multi_addr_string :: String.t(), socket :: Phoenix.LiveView.Socket.t()) ::
+          Phoenix.LiveView.Socket.t()
+  defp decode_multiaddr(multi_addr_string, socket) do
+    encoded_multi_addr_string =
+      case Base.decode64(multi_addr_string) do
+        :error -> Base.encode64(multi_addr_string)
+        _decoded -> multi_addr_string
       end
 
-    decoded_maddr_string =
-      case Base.decode64(maddr_string) do
-        :error -> maddr_string
+    decoded_multi_addr_string =
+      case Base.decode64(multi_addr_string) do
+        :error -> multi_addr_string
         {:ok, decoded} -> decoded
       end
 
-
-    {:ok, layers} =
-      decoded_maddr_string
-      |> Protocols.parse_multiaddr()
-
     layers =
-      layers
+      decoded_multi_addr_string
+      |> Protocols.parse_multiaddr()
+      |> case do
+        {:ok, layers} -> layers
+        _ -> []
+      end
       |> Enum.with_index()
       |> Enum.map(fn {layer, index} ->
         layer
@@ -132,45 +134,53 @@ defmodule TresWebWeb.PageLive do
       end)
 
     socket
-    |> assign(cid: encoded_maddr_string)
+    |> assign(cid: encoded_multi_addr_string)
     |> assign(decoded_multiaddr_display: "flex")
     |> assign(layers: layers |> Enum.reverse())
   end
 
+  @spec decode_input(multi_addr_string :: String.t(), socket :: Phoenix.LiveView.Socket.t()) ::
+          Phoenix.LiveView.Socket.t()
   defp decode_cid(cid, socket) do
-    {:ok, cid_details} = TresWeb.Dweb.Cid.decode(cid)
+    with {:ok, cid_details} <- TresWeb.Dweb.Cid.decode(cid),
+         {:ok,
+          %{
+            "Objects" => %{
+              ^cid => %{
+                "Hash" => hash,
+                "Links" => links,
+                "Size" => size,
+                "Type" => type
+              }
+            }
+          }} <- Ipfs.file_ls(cid) do
+      ipfs_details = %{
+        hash: hash,
+        links: links,
+        size: size,
+        type: type
+      }
 
-    {:ok,
-     %{
-       "Objects" => %{
-         ^cid => %{
-           "Hash" => hash,
-           "Links" => links,
-           "Size" => size,
-           "Type" => type
-         }
-       }
-     }} = Ipfs.file_ls(cid)
-
-    ipfs_details = %{
-      hash: hash,
-      links: links,
-      size: size,
-      type: type
-    }
-
-    socket
-    |> assign(cid: cid)
-    |> assign(:clicked_cid, cid)
-    |> assign(decoded_details_display: "block")
-    |> assign(cid_details: cid_details)
-    |> assign(ipfs_details: ipfs_details)
-    |> assign(ipfs_details: ipfs_details)
-    |> assign(show_cid_details: true)
+      socket
+      |> assign(cid: cid)
+      |> assign(:clicked_cid, cid)
+      |> assign(decoded_details_display: "block")
+      |> assign(cid_details: cid_details)
+      |> assign(ipfs_details: ipfs_details)
+      |> assign(ipfs_details: ipfs_details)
+    else
+      _ -> socket
+    end
   end
 
+  @spec display(index :: integer()) :: %{
+          index: index :: number(),
+          color: color :: String.t(),
+          size: size :: number()
+        }
   defp display(index), do: %{index: index + 1, color: random_color(), size: (index + 1) * 150}
 
+  @spec random_color :: String.t()
   def random_color do
     "rgb(#{Enum.random(0..127)},#{Enum.random(85..170)},#{Enum.random(128..255)})"
   end
