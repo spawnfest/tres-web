@@ -7,10 +7,29 @@ defmodule InspectorDaya.MixProject do
       version: "0.1.0",
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
+<<<<<<< HEAD
       compilers: [] ++ Mix.compilers(),
+=======
+      compilers: Mix.compilers(),
+>>>>>>> master
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [
+        ignore_modules: [
+          InspectorDayaWeb,
+          InspectorDayaWeb.ErrorHelpers,
+          InspectorDayaWeb.Gettext,
+          InspectorDayaWeb.LayoutView,
+          InspectorDayaWeb.PageController,
+          InspectorDayaWeb.Router,
+          InspectorDayaWeb.Router.Helpers,
+          InspectorDayaWeb.Endpoint,
+          InspectorDayaWeb.ErrorView,
+          InspectorDaya.Application,
+          InspectorDayaWeb.Telemetry
+        ]
+      ]
     ]
   end
 
@@ -47,9 +66,11 @@ defmodule InspectorDaya.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
-      # {:ipfx, path: "../../ipfs/ipfx"},
       {:cid, "~> 0.0.1"},
-      {:csv, "~> 2.4.1"}
+      {:csv, "~> 2.4.1"},
+      {:tesla, "~> 1.4"},
+      {:hackney, "~> 1.17"},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
     ]
   end
 
@@ -62,7 +83,8 @@ defmodule InspectorDaya.MixProject do
   defp aliases do
     [
       setup: ["deps.get"],
-      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
+      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"],
+      purity: ["format", "credo --strict"]
     ]
   end
 end
