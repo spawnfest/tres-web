@@ -46,7 +46,7 @@ defmodule InspectorDaya.Multiaddr.Protocols do
     {protocol, []}
   end
 
-  def check_path_parameter(%Protocols{size: size, name: name} = protocol, tail) when size != 0 do
+  def check_path_parameter(%Protocols{size: size} = protocol, tail) when size != 0 do
     with {:ok, param, tokens} <- get_parameter(tail) do
       protocol = %{protocol | parameter: param}
       {protocol, tokens}
@@ -65,22 +65,45 @@ defmodule InspectorDaya.Multiaddr.Protocols do
     {:ok, head, tail}
   end
 
+  def get_protocol("ipfs") do
+    get_protocol("p2p")
+  end
+
   def get_protocol(name) do
+
     case name do
       "ip4" ->
         {:ok, new(name, 32, false)}
 
+      "ip6" ->
+        {:ok, new(name, 128, false)}
+
+      "ipcidr" ->
+        {:ok, new(name, 8, false)}
+
+      "ip6zone" ->
+        {:ok, new(name, -1, false)}
+
       "tcp" ->
         {:ok, new(name, 16, false)}
+
+      "dns" ->
+        {:ok, new(name, -1, false)}
+
+      "dns4" ->
+        {:ok, new(name, -1, false)}
+
+      "dns6" ->
+        {:ok, new(name, -1, false)}
+
+      "dnsaddr" ->
+        {:ok, new(name, -1, false)}
 
       "udp" ->
         {:ok, new(name, 16, false)}
 
       "dccp" ->
         {:ok, new(name, 16, false)}
-
-      "ip6" ->
-        {:ok, new(name, 128, false)}
 
       "tls" ->
         {:ok, new(name, 0, false)}
@@ -97,16 +120,50 @@ defmodule InspectorDaya.Multiaddr.Protocols do
       "unix" ->
         {:ok, new(name, -1, true)}
 
-      "dns4" ->
-        {:ok, new(name, -1, false)}
-
       "p2p" ->
         {:ok, new(name, -1, false)}
+
+      "p2p-circuit" ->
+        {:ok, new(name, 0, false)}
+
+      "sctp" ->
+        {:ok, new(name, 16, false)}
+
+      "onion" ->
+        {:ok, new(name, 296, false)}
+
+      "onion3" ->
+        {:ok, new(name, 296, false)}
+
+      "garlic64" ->
+        {:ok, new(name, -1, false)}
+
+      "garlic32" ->
+        {:ok, new(name, -1, false)}
+
+      "utp" ->
+        {:ok, new(name, 0, false)}
+
+      "udt" ->
+        {:ok, new(name, 0, false)}
+
+      "quic" ->
+        {:ok, new(name, 0, false)}
+
+      "http" ->
+        {:ok, new(name, 0, false)}
+
+      "https" ->
+        {:ok, new(name, 0, false)}
+
+      "p2p-webrtc-direct" ->
+        {:ok, new(name, 0, false)}
+
+      "webrtc" ->
+        {:ok, new(name, 0, false)}
 
       _ ->
         {:error, "protocol name not found"}
     end
   end
 end
-
-# dns, dns4, dns6, dnsaddr,
