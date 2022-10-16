@@ -3,9 +3,6 @@ on:
   push:
   pull_request:
 
-defaults: 
-  run:
-    working-directory: ./tres_web 
 env:
   MIX_ENV: test
 jobs:
