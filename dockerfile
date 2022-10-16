@@ -80,7 +80,7 @@ RUN chown root:root /home/elixir/app
 
 USER root:root
 
-COPY --from=build --chown=root:root /app/_build/"${MIX_ENV}"/rel/femo ./
+COPY --from=build --chown=root:root /app/_build/"${MIX_ENV}"/rel/tres_web ./
 
 COPY entrypoint.sh .
 
