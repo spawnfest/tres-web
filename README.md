@@ -36,27 +36,28 @@
 - Decodes the given CID into its multiple parts
 - Detailed info for each part
 - Provides a Human readable version too
-<!-- GIF -->
+
+![cid_inspector](doc_assets/cid_inspector.gif?raw=true  "cid_inspector")
 
 ### IPFS File Explorer
 
 - From a given CID, we can explore the content and content info
 - We can traverse the directories and files in it, recursively
 
-<!-- GIF -->
+![explorer](doc_assets/explorer.gif?raw=true  "explorer")
+
 
 ### IPFS File Preview Mode
 
 - Preview mode is a part of file explorer
 - With preview mode, we get far more insight into the files, without accessing it separately
 
-<!-- GIF -->
-
 ### Multiaddr Inspector
 - Inspects and interprets multiaddrs
 - Render the encapsulation diagram for given multiaddr
 
-<!-- GIF -->
+![multiaddr](doc_assets/multiaddr.gif?raw=true  "multiaddr")
+
 
 ## Running TresWeb
 
@@ -65,7 +66,13 @@
 - [Docker](https://docs.docker.com/engine/install/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
+- git clone the repo
 
+```
+docker-compose up -d
+```
+
+Then try http://localhost:4000
 ## Roadmap
 - Adding inspector ability to more Dweb properties/features, such as Filecoin, IPLD etc.
 - Remove docker dependency, and make it as a purely standalone
