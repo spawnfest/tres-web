@@ -71,21 +71,21 @@
       <table>
       <tr>
         <td class="px-4 py-2 font-mono text-indigo-900 text-left">CODE</td>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multihash.code.code %></td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multihash.codec_details.code %></td>
       </tr>
-      <%= if @cid_details.multihash.code.description != "" do %>
+      <%= if @cid_details.multihash.codec_details.description != "" do %>
         <tr>
           <td class="px-4 py-2 font-mono text-indigo-900 text-left">DESCRIPTION</td>
-          <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multihash.code.description %></td>
+          <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multihash.codec_details.description %></td>
         </tr>
       <% end %>
       <tr>
         <td class="px-4 py-2 font-mono text-indigo-900 text-left">NAME</td>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multihash.code.name %></td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multihash.codec_details.name %></td>
       </tr>
       <tr>
         <td class="px-4 py-2 font-mono text-indigo-900 text-left">TAG</td>
-        <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multihash.code.tag %></td>
+        <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= @cid_details.multihash.codec_details.tag %></td>
       </tr>
       <tr>
         <td class="px-4 py-2 font-mono text-indigo-900 text-left">DIGEST</td>
