@@ -31,12 +31,14 @@ RUN mix deps.compile
 
 COPY priv priv
 
+# compile and build release
+COPY lib lib
+
 COPY assets assets
 # RUN npm install --prefix ./assets
 RUN mix assets.deploy
 
-# compile and build release
-COPY lib lib
+
 # uncomment COPY if rel/ exists
 
 RUN mix compile

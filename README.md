@@ -11,10 +11,10 @@
 
 1. [About](#about)
 2. [Features](#features)
-    - [CID Inspector](cid-inspector)
-    - [IPFS File Explorer](ipfs-file-explorer)
-    - [IPFS File Preview Mode](ipfs-file-preview-mode)
-    - [Multiaddr Inspector](multiaddr-inspector)
+    - [CID Inspector](#cid-inspector)
+    - [IPFS File Explorer](#ipfs-file-explorer)
+    - [IPFS File Preview Mode](#ipfs-file-preview-mode)
+    - [Multiaddr Inspector](#multiaddr-inspector)
 3. [Running TresWeb](#running-tresweb)
     - [Prerequisites](#prerequisites)
 4. [Roadmap](#roadmap)
@@ -72,6 +72,5 @@
 ## Credits
 
 <div>TresWeb logo -  <a href="https://www.flaticon.com/free-icons/towel" title="towel icons">Towel icons created by smashingstocks - Flaticon</a>
-
 
 **As always, don't forget your towel while hitchhiking the dweb**

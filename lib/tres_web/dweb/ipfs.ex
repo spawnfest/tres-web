@@ -7,7 +7,7 @@ defmodule TresWeb.Dweb.Ipfs do
   """
   use Tesla
 
-  plug Tesla.Middleware.BaseUrl, "http://localhost:5001/api/v0"
+  plug Tesla.Middleware.BaseUrl, "http://ipfs0:5001/api/v0"
   plug Tesla.Middleware.JSON
 
   adapter(Tesla.Adapter.Hackney)
