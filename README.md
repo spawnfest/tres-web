@@ -44,7 +44,7 @@
 - From a given CID, we can explore the content and content info
 - We can traverse the directories and files in it, recursively
 
-![explorer](doc_assets/explorer.gif?raw=true  "explorer")
+![explorer](doc_assets/explorer_2.gif?raw=true  "explorer")
 
 
 ### IPFS File Preview Mode
