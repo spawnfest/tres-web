@@ -4,7 +4,8 @@ defmodule InspectorDaya.Dweb.Ipfs do
   plug Tesla.Middleware.BaseUrl, "http://localhost:5001/api/v0"
   plug Tesla.Middleware.JSON
 
-  adapter Tesla.Adapter.Hackney
+  adapter(Tesla.Adapter.Hackney)
+
   def post_it(path, params \\ %{}) do
     post(path, params)
     |> case do
@@ -19,5 +20,4 @@ defmodule InspectorDaya.Dweb.Ipfs do
   def file_ls(cid) do
     post_it("/file/ls?arg=#{cid}")
   end
-
 end

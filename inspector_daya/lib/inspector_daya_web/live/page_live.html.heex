@@ -7,6 +7,7 @@
   </div>
 </div>
 
+
 <div class="flex flex-column">
   <div class="border-l-2 border-blue-600 flex flex-row w-5/12" style={"display:#{@decoded_details_display}"}>
     
@@ -42,7 +43,6 @@
     
     <div class="px-4 py-2">
       <div class="px-4 py-2 font-mono text-blue text-left"> MULTICODEC </div>
-
       <table>
       <tr>
         <td class="px-4 py-2 font-mono text-indigo-900 text-left">CODE</td>
@@ -67,7 +67,6 @@
 
     <div class="px-4 py-2">
       <div class="px-4 py-2 font-mono text-blue text-left"> MULTIHASH </div>
-
       <table>
       <tr>
         <td class="px-4 py-2 font-mono text-indigo-900 text-left">CODE</td>
@@ -100,7 +99,6 @@
     
     <div class="px-4 py-2">
       <div class="px-4 py-2 font-mono text-blue text-left"> CONVERSIONS </div>
-
       <table>
       <tr>
         <td class="px-4 py-2 font-mono text-indigo-900 text-left">CID V0 </td>
@@ -112,7 +110,8 @@
       </tr>
       </table>
     </div>
-</div>
+  </div>
+
   <div class="border-l-2 border-blue-600 flex flex-row w-7/12" style={"display:#{@decoded_details_display}"}>
         
     <div class="px-4 py-2">
@@ -149,10 +148,8 @@
       </table>
 
       <%= if @ipfs_details.type == "Directory" do %>
-
         <div class="py-2">
           <div class="px-4 py-2 font-mono text-blue text-left"> CONTENTS </div>
-
           <table>
           <tr>
               <th class="px-4 py-2 font-mono text-indigo-900 text-left">HASH </th>
@@ -161,7 +158,6 @@
               <th class="px-4 py-2 font-mono text-indigo-900 text-left">TYPE </th>
               <th class="px-4 py-2 font-mono text-indigo-900 text-left">ACTION </th>
            </tr>
-
           <%= for content <- @ipfs_details.links do %>
              <tr>
               <td class="px-4 py-2 font-mono text-indigo-900 text-left"><%= content["Hash"] %></td>
@@ -181,11 +177,46 @@
             <% end %>
           </table>
         </div>
-
       <% end %>
     </div>
-    
-
+  </div>
 </div>
 
+
+<%!-- 
+<div class="flex justify-center">
+<svg width="1380" height="1280">
+<%= for layer <- @layers do %>
+  <rect x={"#{690 - layer.display.size * 1.75 * 0.5}"} y={"#{340 - layer.display.size * 0.75 * 0.5}"} width={"#{layer.display.size * 1.75}"} height={"#{layer.display.size * 0.75}"} style={"fill:#{layer.display.color};stroke-width:3;stroke:rgb(0,0,0)"} />
+  <%= if layer.parameter != nil do %>
+  <text x="690" y={"#{340 -(layer.display.size-80) * 0.75* 0.5}"}  lengthAdjust="spacing" font-size="15px" text-anchor="middle" alignment-baseline="central"><%= layer.name %>/<%= layer.parameter %></text>
+  <% else %>
+  <text x="690" y={"#{340 -(layer.display.size-60) * 0.75* 0.5}"}  lengthAdjust="spacing" font-size="15px" text-anchor="middle" alignment-baseline="central"><%= layer.name %></text>
+  <% end %>
+<% end %>
+</svg>
+ </div> --%>
+
+
+<div class="flex flex-column w-full justify-center" style={"display:#{@decoded_multiaddr_display}"}>
+
+  <div class="px-4 py-2">
+    <div class="px-4 py-2 font-mono text-blue text-left"> MULTIADDR </div>
+    <%= if @decoded_multiaddr_display != "none" do %>
+      <div class="px-4 py-2 font-mono text-indigo-900 text-left"> <%= Base.decode64!(@cid) %> </div>
+    <% end %>
+    <div class="px-4 pt-8 font-mono text-blue text-left"> ENCAPSULATION DIAGRAM </div>
+    <div class="px-4 py-2 font-mono text-indigo-900 text-left">
+        <svg width="1280" height="1280">
+        <%= for layer <- @layers do %>
+          <rect x="0" y={"#{layer.display.index * 50 - 40}"} width={"#{layer.display.index * 75 + 50}"} height="50" style={"fill:#{layer.display.color};stroke-width:3;stroke:rgb(0,0,0)"} />
+          <%= if layer.parameter != nil do %>
+            <text x={"#{layer.display.index * 75 + 55}"} y={"#{(layer.display.index) * 50-20}"}  lengthAdjust="spacing" font-size="15px" text-anchor="left" alignment-baseline="central"><%= layer.name %>/<%= layer.parameter %></text>
+          <% else %>
+            <text x={"#{layer.display.index * 75 + 55}"} y={"#{(layer.display.index) * 50 - 20}"}  lengthAdjust="spacing" font-size="15px" text-anchor="left" alignment-baseline="central"><%= layer.name %></text>
+          <% end %>
+        <% end %>
+        </svg>
+     </div>
+  </div>  
 </div>

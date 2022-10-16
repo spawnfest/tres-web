@@ -2,6 +2,16 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+.rect-anchor-50-50 {
+  /* 
+    precents in translate are calculated relative to
+    the applied rectangle, but not its parent
+    */
+  transform: translate(-50%, -50%);
+  fill: #afcfae;
+  opacity: 0.75;
+}
+
 /* This file is for your main application CSS */
 
 /* Alerts and form errors used by phx.new */
