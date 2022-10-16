@@ -19,7 +19,7 @@ defmodule InspectorDayaWeb.PageLive do
            tag: ""
          },
          multihash: %{
-           code: %{code: "", description: "", name: "", tag: ""},
+           codec_details: %{code: "", description: "", name: "", tag: ""},
            digest: "",
            multihash_algo: ""
          },

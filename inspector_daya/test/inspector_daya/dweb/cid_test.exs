@@ -5,6 +5,7 @@ defmodule InspectorDaya.Dweb.CidTest do
 
   use ExUnit.Case
   alias InspectorDaya.Dweb.Cid
+
   doctest InspectorDaya.Dweb.Cid
 
   describe "decode/1" do
