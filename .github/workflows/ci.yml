@@ -1,11 +1,11 @@
-name: Inspector Daya CI
+name: tres-web CI
 on:
   push:
   pull_request:
 
 defaults: 
   run:
-    working-directory: ./inspector_daya 
+    working-directory: ./tres_web 
 env:
   MIX_ENV: test
 jobs:
