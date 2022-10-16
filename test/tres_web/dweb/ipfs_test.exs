@@ -25,7 +25,7 @@ defmodule TresWeb.Dweb.IpfsTest do
                 "QmbcLhh7kw2C25RE8Ct5XBG25QKA5HHiNkCq3zFDnSV6QG" => %{
                   "Hash" => "QmbcLhh7kw2C25RE8Ct5XBG25QKA5HHiNkCq3zFDnSV6QG",
                   "Links" => nil,
-                  "Size" => 26368,
+                  "Size" => 26_368,
                   "Type" => "File"
                 }
               }

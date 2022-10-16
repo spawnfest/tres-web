@@ -117,7 +117,6 @@ defmodule TresWebWeb.PageLive do
         {:ok, decoded} -> decoded
       end
 
-
     {:ok, layers} =
       decoded_maddr_string
       |> Protocols.parse_multiaddr()

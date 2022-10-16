@@ -72,3 +72,6 @@
 ## Credits
 
 <div>TresWeb logo -  <a href="https://www.flaticon.com/free-icons/towel" title="towel icons">Towel icons created by smashingstocks - Flaticon</a>
+
+
+**As always, don't forget your towel while hitchhiking the dweb**

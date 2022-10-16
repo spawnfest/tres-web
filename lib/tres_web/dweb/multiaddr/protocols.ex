@@ -74,106 +74,38 @@ defmodule TresWeb.Dweb.Multiaddr.Protocols do
   end
 
   @spec get_protocol(String.t()) :: {:ok, Protocols} | {:error, any}
-  def get_protocol("ipfs") do
-    get_protocol("p2p")
-  end
-
-  def get_protocol(name) do
-    case name do
-      "ip4" ->
-        {:ok, new(name, 32, false)}
-
-      "ip6" ->
-        {:ok, new(name, 128, false)}
-
-      "ipcidr" ->
-        {:ok, new(name, 8, false)}
-
-      "ip6zone" ->
-        {:ok, new(name, -1, false)}
-
-      "tcp" ->
-        {:ok, new(name, 16, false)}
-
-      "dns" ->
-        {:ok, new(name, -1, false)}
-
-      "dns4" ->
-        {:ok, new(name, -1, false)}
-
-      "dns6" ->
-        {:ok, new(name, -1, false)}
-
-      "dnsaddr" ->
-        {:ok, new(name, -1, false)}
-
-      "udp" ->
-        {:ok, new(name, 16, false)}
-
-      "dccp" ->
-        {:ok, new(name, 16, false)}
-
-      "tls" ->
-        {:ok, new(name, 0, false)}
-
-      "ws" ->
-        {:ok, new(name, 0, false)}
-
-      "wss" ->
-        {:ok, new(name, 0, false)}
-
-      "noise" ->
-        {:ok, new(name, 0, false)}
-
-      "unix" ->
-        {:ok, new(name, -1, true)}
-
-      "p2p" ->
-        {:ok, new(name, -1, false)}
-
-      "p2p-circuit" ->
-        {:ok, new(name, 0, false)}
-
-      "sctp" ->
-        {:ok, new(name, 16, false)}
-
-      "onion" ->
-        {:ok, new(name, 296, false)}
-
-      "onion3" ->
-        {:ok, new(name, 296, false)}
-
-      "garlic64" ->
-        {:ok, new(name, -1, false)}
-
-      "garlic32" ->
-        {:ok, new(name, -1, false)}
-
-      "utp" ->
-        {:ok, new(name, 0, false)}
-
-      "udt" ->
-        {:ok, new(name, 0, false)}
-
-      "quic" ->
-        {:ok, new(name, 0, false)}
-
-      "http" ->
-        {:ok, new(name, 0, false)}
-
-      "https" ->
-        {:ok, new(name, 0, false)}
-
-      "p2p-webrtc-direct" ->
-        {:ok, new(name, 0, false)}
-
-      "webrtc" ->
-        {:ok, new(name, 0, false)}
-
-      _ ->
-        {:error, "protocol name not found"}
-    end
-  end
+  def get_protocol("ipfs"), do: get_protocol("p2p")
+  def get_protocol("ip4"), do: {:ok, new("ip4", 32, false)}
+  def get_protocol("ip6"), do: {:ok, new("ip6", 128, false)}
+  def get_protocol("ipcidr"), do: {:ok, new("ipcidr", 8, false)}
+  def get_protocol("ip6zone"), do: {:ok, new("ip6zone", -1, false)}
+  def get_protocol("tcp"), do: {:ok, new("tcp", -1, false)}
+  def get_protocol("dns"), do: {:ok, new("dns", -1, false)}
+  def get_protocol("dns4"), do: {:ok, new("dns4", -1, false)}
+  def get_protocol("dns6"), do: {:ok, new("dns6", -1, false)}
+  def get_protocol("dnsaddr"), do: {:ok, new("dnsaddr", -1, false)}
+  def get_protocol("udp"), do: {:ok, new("udp", 16, false)}
+  def get_protocol("dccp"), do: {:ok, new("dccp", 16, false)}
+  def get_protocol("tls"), do: {:ok, new("tls", 0, false)}
+  def get_protocol("ws"), do: {:ok, new("ws", 0, false)}
+  def get_protocol("wss"), do: {:ok, new("wss", 0, false)}
+  def get_protocol("noise"), do: {:ok, new("noise", 0, false)}
+  def get_protocol("unix"), do: {:ok, new("unix", -1, true)}
+  def get_protocol("p2p"), do: {:ok, new("p2p", -1, false)}
+  def get_protocol("p2p-circuit"), do: {:ok, new("p2p-circuit", 0, false)}
+  def get_protocol("sctp"), do: {:ok, new("sctp", 16, false)}
+  def get_protocol("onion"), do: {:ok, new("onion", 296, false)}
+  def get_protocol("onion3"), do: {:ok, new("onion3", 296, false)}
+  def get_protocol("garlic64"), do: {:ok, new("garlic64", -1, false)}
+  def get_protocol("garlic32"), do: {:ok, new("garlic32", -1, false)}
+  def get_protocol("utp"), do: {:ok, new("utp", 0, false)}
+  def get_protocol("udt"), do: {:ok, new("udt", 0, false)}
+  def get_protocol("quic"), do: {:ok, new("quic", 0, false)}
+  def get_protocol("http"), do: {:ok, new("http", 0, false)}
+  def get_protocol("https"), do: {:ok, new("https", 0, false)}
+  def get_protocol("p2p-webrtc-direct"), do: {:ok, new("p2p-webrtc-direct", 0, false)}
+  def get_protocol("webrtc"), do: {:ok, new("webrtc", 0, false)}
+  def get_protocol(_), do: {:error, "protocol name not found"}
 
   @spec parse_tokens(list(String.t()), list(Protocols), :ok | :error) ::
           {:ok, list(Protocols)} | {:error, any}
@@ -235,6 +167,4 @@ defmodule TresWeb.Dweb.Multiaddr.Protocols do
       _ -> {:error, "required parameter"}
     end
   end
-
-
 end
