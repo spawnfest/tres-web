@@ -32,7 +32,7 @@ RUN mix deps.compile
 COPY priv priv
 
 COPY assets assets
-RUN npm install --prefix ./assets
+# RUN npm install --prefix ./assets
 RUN mix assets.deploy
 
 # compile and build release
